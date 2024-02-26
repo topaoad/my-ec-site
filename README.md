@@ -44,16 +44,18 @@
 - UX/UI の向上
 - テストの実装
 
-## PrismaによるORMの管理メモ
-- マイグレーションファイルを作成する（--name の後ろにファイル名）
-npx prisma migrate dev --name 
-- seed.tsのレコードをテーブルに適用する
-npx prisma db seed
-- マイグレーションファイルの作成なしにデータベースのテーブルを変更する
-npx prisma db push
-- Prismaクライアントを生成する（型定義を生成する）※スキーマが更新されたタイミング
-npx prisma generate
+## Prisma による ORM の管理メモ
 
+- マイグレーションファイルを作成する（--name の後ろにファイル名）
+  npx prisma migrate dev --name
+- マイグレーションファイルを適用（本番環境適用時、他の人が作成したマイグレーションファイル適用）
+  npx prisma migrate deploy
+- seed.ts のレコードをテーブルに適用する
+  npx prisma db seed
+- マイグレーションファイルの作成なしにデータベースのテーブルを変更する（開発用。使用しなくても良い）
+  npx prisma db push
+- Prisma クライアントを生成する（型定義を生成する）※スキーマが更新されたタイミング
+  npx prisma generate
 
 ## 参考サイト
 
@@ -80,4 +82,8 @@ npx prisma generate
 
 - [【Jotai】React の状態管理はコレで決まり！！](https://qiita.com/al_tarte/items/bfaefc34e9b0be91c72a)
 
-## supabase の auth-helpers-nextjs を使った認証機能の実装の流れ
+### Prisma
+
+- [TypeScript ORM「Prisma」のはじめかた](https://www.memory-lovers.blog/entry/2021/10/13/113000)
+
+##
