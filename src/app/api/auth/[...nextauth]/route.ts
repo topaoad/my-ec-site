@@ -10,8 +10,8 @@ const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  // これがあるとエラーになる 原因調査中（2024/2/26）
-  // adapter: PrismaAdapter(prisma),
+  // Prismaアダプターでセッション情報などを取得できているが、callback内のsignIn関数でも取得しているので少々冗長かも
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? '',
