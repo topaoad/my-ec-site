@@ -44,6 +44,17 @@
 - UX/UI の向上
 - テストの実装
 
+## PrismaによるORMの管理メモ
+- マイグレーションファイルを作成する（--name の後ろにファイル名）
+npx prisma migrate dev --name 
+- seed.tsのレコードをテーブルに適用する
+npx prisma db seed
+- マイグレーションファイルの作成なしにデータベースのテーブルを変更する
+npx prisma db push
+- Prismaクライアントを生成する（型定義を生成する）※スキーマが更新されたタイミング
+npx prisma generate
+
+
 ## 参考サイト
 
 ### 全般
