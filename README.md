@@ -80,7 +80,9 @@
 
 ### TanStackQuery
 
-- [【Jotai】React の状態管理はコレで決まり！！](https://qiita.com/al_tarte/items/bfaefc34e9b0be91c72a)
+- [初めてでも安心 TanStack Query v5 の基本的な設定方法と動きを学ぶ](https://reffect.co.jp/react/tanstack-query-v5#i-4)
+- [TanStack Query(React Query)で作るシンプル ToDo アプリで CRUD 処理](https://reffect.co.jp/react/tanstack-query#TanStack_Query-3)
+- [TanStack Query 公式](https://tanstack.com/query/latest)
 
 ### Prisma
 

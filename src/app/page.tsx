@@ -6,13 +6,20 @@ import { getServerSession } from "next-auth/next"
 import { useSession, signIn, signOut } from "next-auth/react"
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import SessionTip from "./components/SessionTip";
+import UserProfile from "./components/UserProfile";
 
 
 export default async function Home() {
   // サーバーセッション
   const session = await getServerSession(authOptions);
 
-
+  const getUserList = async () => {
+    const res = await fetch('http://localhost:3000/api/user')
+    const json = await res.json()
+    return json.users
+  }
+  const userList = await getUserList()
+  console.log("⭐️userList⭐️", userList)
 
   // if (session === "loading") {
   //   return <p>Hang on there...</p>
@@ -32,6 +39,7 @@ export default async function Home() {
     <>
 
       <SessionTip session={session} />
+      <UserProfile />
     </>
   )
 }

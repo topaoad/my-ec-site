@@ -5,6 +5,10 @@ import NextAuthProvider from '@/providers/NextAuth'
 import { Suspense } from "react";
 import UserProfile from "@/app/components/UserProfile";
 import JotaiProvider from "@/app/components/JotaiProvider";
+import TanStackProvider from "./components/TanStackProvider";
+import '@mantine/core/styles.css';
+import MantineProviderWrapper from "./components/MantineProvider";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +27,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextAuthProvider>
           <JotaiProvider>
-            <UserProfile />
-            {/* <Header /> */}
-            <Suspense fallback={<div >loading...</div>}>{children}</Suspense>
+            <TanStackProvider>
+              <MantineProviderWrapper>
+                {/* <Header /> */}
+                <Suspense fallback={<div >loading...</div>}>{children}</Suspense>
+              </MantineProviderWrapper>
+            </TanStackProvider>
           </JotaiProvider>
         </NextAuthProvider>
       </body>
