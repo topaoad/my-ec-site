@@ -8,7 +8,7 @@ import { userAtom } from '@/store/userAtom';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Image, Text, Badge, Button, Group, CopyButton } from '@mantine/core';
 
-// ログイン、ログっっsアウト機能用の仮コンポーネント
+// ログイン、ログアウト機能用の仮コンポーネント
 export default function UserProfile() {
   // クライアントセッション
   const { data: session, status } = useSession()
