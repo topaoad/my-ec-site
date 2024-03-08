@@ -8,7 +8,7 @@ import { userAtom } from '@/store/userAtom';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Image, Text, Badge, Button, Group, CopyButton } from '@mantine/core';
 
-// ログイン、ログアウト機能用の仮コンポーネント
+// ログイン、ログっっsアウト機能用の仮コンポーネント
 export default function UserProfile() {
   // クライアントセッション
   const { data: session, status } = useSession()
@@ -17,11 +17,15 @@ export default function UserProfile() {
   if (session != null) {
     setUser(session.user?.email ?? null);
   }
-  // ローカルでどのようなユーザー情報を持たせるかは要検討
+  /**
+   * 
+   * sessionがない場合はsignページにリダイレクト
+   */
+
 
   // TanStackのuseQueryを使用してデータを取得
   const fetchUsers = async () => {
-    const res = await fetch('/api/user');
+    const res = await fetch(session ? '/api/user' : "");
     return res.json();
   };
 
@@ -31,8 +35,11 @@ export default function UserProfile() {
       queryKey: ['users'],
       queryFn: fetchUsers,
     });
+  // ローカルでどのようなユーザー情報を持たせるかは要検討
+
   console.log("⭐️users⭐️", users)
   console.log("⭐️users⭐️", others)
+  console.log("⭐️session⭐️", session)
 
   if (session && session.user) {
     return (

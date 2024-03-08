@@ -4,9 +4,9 @@ import { getServerSession } from "next-auth/next"
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 // import SessionTip from '@/app/components/SessionTip'
 import { useSession, signIn, signOut } from "next-auth/react"
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import SessionTip from "./components/SessionTip";
-import UserProfile from "./components/UserProfile";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import SessionTip from "@/app/components/SessionTip";
+import UserProfile from "@/app/components/UserProfile";
 
 
 export default async function Home() {
@@ -18,10 +18,8 @@ export default async function Home() {
     const json = await res.json()
     return json.users
   }
-  let userList = []
-  if (session != null) {
-    userList = await getUserList()
-  }
+  const userList = await getUserList()
+  console.log("⭐️⭐️⭐️⭐️userList⭐️", userList)
 
   // if (session === "loading") {
   //   return <p>Hang on there...</p>
@@ -39,7 +37,7 @@ export default async function Home() {
 
   return (
     <>
-      <UserProfile />
+      <SessionTip session={session} />
     </>
   )
 }
