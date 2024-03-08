@@ -7,9 +7,12 @@ import { useAtom } from 'jotai';
 import { userAtom } from '@/store/userAtom';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Image, Text, Badge, Button, Group, CopyButton } from '@mantine/core';
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react';
 
 // ログイン、ログアウト機能用の仮コンポーネント
 export default function UserProfile() {
+  const router = useRouter()
   // クライアントセッション
   const { data: session, status } = useSession()
   // セッションユーザーのemailを使用してユーザー情報を取得
@@ -17,11 +20,16 @@ export default function UserProfile() {
   if (session != null) {
     setUser(session.user?.email ?? null);
   }
-  /**
-   * 
-   * sessionがない場合はsignページにリダイレクト
-   */
 
+  useEffect(() => {
+    // ローカル側でリダイレクトさせる処理
+    const redirectSignin = () => {
+      if (!session) {
+        return router.push('/signin')
+      }
+    }
+    redirectSignin()
+  }, []);
 
   // TanStackのuseQueryを使用してデータを取得
   const fetchUsers = async () => {

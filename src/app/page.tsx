@@ -7,11 +7,13 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import SessionTip from "./components/SessionTip";
 import UserProfile from "./components/UserProfile";
+import { NextResponse } from "next/server";
 
 
 export default async function Home() {
   // サーバーセッション
   const session = await getServerSession(authOptions);
+
 
   const getUserList = async () => {
     const res = await fetch('http://localhost:3000/api/user')
@@ -22,6 +24,21 @@ export default async function Home() {
   if (session != null) {
     userList = await getUserList()
   }
+
+  /**
+   * 
+   * sessionがない場合はsignページにリダイレクト
+   */
+  // const redirectSignin = () => {
+  //   if (!session) {
+  //     const signInUrl = `${process.env.NEXTAUTH_URL}/signin`; // リダイレクト先のURLを構築// リダイレクト先のURLを構築
+  //     return (
+  //       NextResponse.redirect(signInUrl)// リダイレクトを実行
+  //     )
+  //   }
+  // }
+  // redirectSignin()
+
 
   // if (session === "loading") {
   //   return <p>Hang on there...</p>
