@@ -14,12 +14,18 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   const getUserList = async () => {
-    const res = await fetch('http://localhost:3000/api/user')
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`)
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
     const json = await res.json()
     return json.users
   }
-  const userList = await getUserList()
-  console.log("⭐️⭐️⭐️⭐️userList⭐️", userList)
+
+  let userList = []
+  if (session != null) {
+    userList = await getUserList();
+  }
 
   // if (session === "loading") {
   //   return <p>Hang on there...</p>

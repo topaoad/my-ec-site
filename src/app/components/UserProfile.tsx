@@ -21,15 +21,16 @@ export default function UserProfile() {
     setUser(session.user?.email ?? null);
   }
 
-  useEffect(() => {
-    // ローカル側でリダイレクトさせる処理
-    const redirectSignin = () => {
-      if (!session) {
-        return router.push('/signin')
-      }
-    }
-    redirectSignin()
-  }, []);
+  // ローカル側でリダイレクトさせる処理　ただし、middlewareでリダイレクトされるので不要
+  // status !== "authenticated")にすると、status===loading時にリダイレクトされてしまうのでNG
+  // useEffect(() => {
+  //   const redirectSignin = () => {
+  //     if (status === "unauthenticated") {
+  //       return router.push('/signin')
+  //     }
+  //   }
+  //   redirectSignin()
+  // }, [status, router]);
 
   // TanStackのuseQueryを使用してデータを取得
   const fetchUsers = async () => {
@@ -44,10 +45,6 @@ export default function UserProfile() {
       queryFn: fetchUsers,
     });
   // ローカルでどのようなユーザー情報を持たせるかは要検討
-
-  console.log("⭐️users⭐️", users)
-  console.log("⭐️users⭐️", others)
-  console.log("⭐️session⭐️", session)
 
   if (session && session.user) {
     return (

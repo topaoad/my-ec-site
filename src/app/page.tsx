@@ -8,23 +8,28 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import SessionTip from "./components/SessionTip";
 import UserProfile from "./components/UserProfile";
 import { NextResponse } from "next/server";
+import { Products } from "./products/components/Products";
+import { Productsdemo } from "./products/components/Productsdemo";
+import { redirect } from "next/navigation";
 
 
 export default async function Home() {
   // サーバーセッション
   const session = await getServerSession(authOptions);
 
-
   const getUserList = async () => {
-    const res = await fetch('http://localhost:3000/api/user')
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`)
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
     const json = await res.json()
     return json.users
   }
+
   let userList = []
   if (session != null) {
-    userList = await getUserList()
+    userList = await getUserList();
   }
-
   /**
    * 
    * sessionがない場合はsignページにリダイレクト
@@ -38,25 +43,23 @@ export default async function Home() {
   //   }
   // }
   // redirectSignin()
-
+  /**
+   * サーバー側でのsessionの判定
+   */
+  // if (!session) {
+  //   return redirect('/signin');
+  // }
 
   // if (session === "loading") {
   //   return <p>Hang on there...</p>
   // }
 
-  // if (session === "authenticated") {
-  //   return (
-  //     <>
-  //       <p>Signed in as {userEmail}</p>
-  //       <button onClick={() => signOut()}>Sign out</button>
-  //       <img src="https://cdn.pixabay.com/photo/2017/08/11/19/36/vw-2632486_1280.png" />
-  //     </>
-  //   )
-  // }
 
   return (
     <>
       <UserProfile />
+      <Products />
+      <Productsdemo />
     </>
   )
 }
