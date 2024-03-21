@@ -2,7 +2,6 @@ import { stripe } from '@/app/libs/stripe'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest, { params }: { params: { product_id: string } }) {
-  console.log("🤩🤩🤩🤩🤩request", request)
   const origin = request.headers.get('origin') || 'http://localhost:3000'
   const referer = request.headers.get('referer') || 'http://localhost:3000'
   const productId = params.product_id
@@ -18,8 +17,10 @@ export async function POST(request: NextRequest, { params }: { params: { product
   }
   const body = await request.formData()
   const amount = body.get('amount') as FormDataEntryValue
-  const currency = body.get('currency') as FormDataEntryValue
-  const name = body.get('name') as FormDataEntryValue
+  // const currency = body.get('currency') as FormDataEntryValue
+  const currency = "jpy"
+  // const name = body.get('name') as FormDataEntryValue
+  const name = "testname"
   const image = body.get('image') as FormDataEntryValue
   let { id: priceId } = await stripe.prices
     .list({
