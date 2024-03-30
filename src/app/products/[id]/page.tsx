@@ -74,6 +74,7 @@ export default async function Product({ params: { id: productId }, searchParams 
           </button>
         </div>
         <input type='hidden' name='amount' value={product.price} />
+        <input type='hidden' name='email' value="sample@gmail.com" />
         {/* <input type='hidden' name='currency' value={product.currency} />
         <input type='hidden' name='name' value={product.name} /> */}
         {/* {
