@@ -22,6 +22,27 @@ export async function POST(request: NextRequest, { params }: { params: { product
   // const name = body.get('name') as FormDataEntryValue
   const name = "testname"
   const image = body.get('image') as FormDataEntryValue
+
+  // 顧客のメールアドレスで顧客を検索し、あればそれを元に支払い方法を取得する。なければ新たな顧客を作成する。
+  let paymentMethods
+  let customerId
+  let customers = await stripe.customers.list({
+    email: 'sample@gmail.com', // 顧客のメールアドレス
+  });
+  if (customers.data.length > 0) {
+    customerId = customers.data[0].id; // 最初に一致した顧客のIDを使用
+    // 顧客のカード情報の取得
+    paymentMethods = await stripe.paymentMethods.list({
+      customer: customerId,
+      type: 'card',
+    });
+  } else {
+    const newCustomer = await stripe.customers.create({
+      email: body.get('email') as string, // 顧客のメールアドレス
+    });
+    customerId = newCustomer.id;
+  }
+
   let { id: priceId } = await stripe.prices
     .list({
       product: productId,
@@ -43,8 +64,21 @@ export async function POST(request: NextRequest, { params }: { params: { product
         ? product.default_price
         : product.default_price?.id ?? ''
   }
+
+  // 以下はStripe.jsやElementsを使用してクライアントサイドでカスタムした支払いを確認するために使用されます。
+  // const paymentIntent = await stripe.paymentIntents.create({
+  //   amount: 1000, // 金額
+  //   currency: 'jpy', // 通貨
+  //   // customer: customer.id, // 顧客ID
+  //   customer: paymentMethods?.data[0].customer as string, // 顧客ID
+  //   payment_method: paymentMethods?.data[0].id,  // 支払い方法ID
+  //   confirm: true, // 支払いの確認
+  //   return_url: `${origin}?success=true`, // 支払い完了後のリダイレクトURL
+  // });
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
+    payment_method_types: ['card'],
     line_items: [
       {
         price: priceId,
@@ -53,6 +87,10 @@ export async function POST(request: NextRequest, { params }: { params: { product
     ],
     cancel_url: referer,
     success_url: `${origin}?success=true`,
+    customer: customerId, // 顧客IDの指定
+    payment_intent_data: {
+      setup_future_usage: 'on_session',
+    },
   })
   if (session.url) {
     return NextResponse.redirect(new URL(session.url), 303)
