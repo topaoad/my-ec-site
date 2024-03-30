@@ -1,5 +1,5 @@
-import { createClient } from 'microcms-js-sdk'
-import type { CustomRequestInit, MicroCMSImage, MicroCMSQueries } from 'microcms-js-sdk'
+import { createClient } from "microcms-js-sdk"
+import type { CustomRequestInit, MicroCMSImage, MicroCMSQueries } from "microcms-js-sdk"
 
 // if (!process.env.MICROCMS_SERVICE_DOMAIN) {
 //   throw new Error('MICROCMS_SERVICE_DOMAIN is required')
@@ -9,22 +9,18 @@ import type { CustomRequestInit, MicroCMSImage, MicroCMSQueries } from 'microcms
 //   throw new Error('MICROCMS_API_KEY is required')
 // }
 export const client = createClient({
-  // serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
-  // apiKey: process.env.MICROCMS_API_KEY,
-  serviceDomain: "ecproducts",
-  apiKey: "5x6fSZiAlkuLfrR4DMaS9R5A3fmKUY5wEfJA",
+  serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN as string,
+  apiKey: process.env.MICROCMS_API_KEY as string,
 })
-// MICROCMS_SERVICE_DOMAIN = "ecproducts"
-// MICROCMS_API_KEY = "5x6fSZiAlkuLfrR4DMaS9R5A3fmKUY5wEfJA"
 const customRequestInit: CustomRequestInit | undefined = (() => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     return {
-      cache: 'no-cache',
+      cache: "no-cache",
     }
   }
-  if (process.env?.NEXT_RUNTIME === 'edge') return undefined
+  if (process.env?.NEXT_RUNTIME === "edge") return undefined
   return {
-    cache: 'default',
+    cache: "default",
   }
 })()
 
@@ -42,7 +38,7 @@ export const listProducts = async (queries: MicroCMSQueries = {}) => {
   const offset = queries?.offset ? queries?.offset * pageLimit : 0
   return client.getList<Product>({
     customRequestInit,
-    endpoint: 'products',
+    endpoint: "products",
     queries: {
       limit: pageLimit,
       ...queries,
@@ -54,7 +50,7 @@ export const listProducts = async (queries: MicroCMSQueries = {}) => {
 export const getProductById = async (id: string, queries: MicroCMSQueries = {}) => {
   return client.get<Product>({
     customRequestInit,
-    endpoint: 'products',
+    endpoint: "products",
     contentId: id,
     queries,
   })
