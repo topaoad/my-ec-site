@@ -8,8 +8,7 @@ import Image from 'next/image'
 export async function Products({ offset }: { offset?: number }) {
   const { contents: products, ...args } = await listProducts()
   const { totalCount, limit } = args
-  console.log(args)
-  console.log(products)
+
   return (
     // <Suspense fallback={<div>Loading中・・・</div>}>
     <>
