@@ -38,14 +38,10 @@ export function Productsdemo({ offset }: { offset?: number }) {
 
   const { data: products, mutate, error: isError, isLoading } = useSWR<Product[]>(['products', offset], () => fetchProducts(offset));
 
-  console.log(products)
-  // const { totalCount, limit } = args
-  // console.log(products)
+
   return (
     // <Suspense fallback={<div>Loading中・・・</div>}>
     <>
-
-      <>hogehoge</>
       {/* <Pagination totalCount={totalCount} limit={limit} /> */}
       {/* </Suspense > */}
     </>
