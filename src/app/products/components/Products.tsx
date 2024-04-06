@@ -51,7 +51,6 @@ export async function Products({ offset }: { offset?: number }) {
                   </p>
                   <input type='hidden' name='amount' value={product.price} />
                   <input type='hidden' name='email' value="sample@gmail.com" />
-                  {/* <input type='hidden' name='currency' value={product.currency} /> */}
                   {/* <input type='hidden' name='name' value={product.name} /> */}
                   {product.image ? (
                     <input type='hidden' name='image' value={product.image.url} />
