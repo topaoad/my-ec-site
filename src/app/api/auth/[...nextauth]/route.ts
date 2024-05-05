@@ -1,13 +1,13 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import LineProvider from 'next-auth/providers/line';
-import SlackProvider from 'next-auth/providers/slack';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
-import { NextAuthOptions } from 'next-auth';
-import { randomUUID, randomBytes } from 'crypto';
+import NextAuth from "next-auth"
+import GoogleProvider from "next-auth/providers/google"
+import LineProvider from "next-auth/providers/line"
+import SlackProvider from "next-auth/providers/slack"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { PrismaClient } from "@prisma/client"
+import { NextAuthOptions } from "next-auth"
+import { randomUUID, randomBytes } from "crypto"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -15,12 +15,12 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
     LineProvider({
-      clientId: process.env.LINE_CLIENT_ID ?? '',
-      clientSecret: process.env.LINE_CLIENT_SECRET ?? '',
+      clientId: process.env.LINE_CLIENT_ID ?? "",
+      clientSecret: process.env.LINE_CLIENT_SECRET ?? "",
     }),
     // SlackProvider({
     //   clientId: process.env.SLACK_CLIENT_ID ?? '',
@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
         // ユーザーIDをセッションに追加
         console.log("session情報⭐️", session)
       }
-      return session;
+      return session
     },
     // サインイン後にリダイレクトする
     async redirect({ url, baseUrl }) {
@@ -49,7 +49,7 @@ export const authOptions: NextAuthOptions = {
         email: user.email,
         name: user.name,
         image: user.image,
-      };
+      }
 
       // Userテーブルにデータを格納※メールアドレスが取得できる場合のみ
       if (user.email) {
@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
           where: { email: user.email },
           create: userData,
           update: userData,
-        });
+        })
 
         // Accountテーブルにアカウント情報を格納
         if (account && account.providerAccountId) {
@@ -80,12 +80,11 @@ export const authOptions: NextAuthOptions = {
               provider: account.provider,
               providerAccountId: account.providerAccountId,
             },
-          });
+          })
         }
       }
-      return true;
+      return true
     },
-
   },
   session: {
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
@@ -106,7 +105,7 @@ export const authOptions: NextAuthOptions = {
     // need a more customized session token string, you can define your own generate function.
     generateSessionToken: () => {
       return randomUUID?.() ?? randomBytes(32).toString("hex")
-    }
+    },
   },
   pages: {
     // signIn: '/auth/signin',
@@ -115,9 +114,9 @@ export const authOptions: NextAuthOptions = {
     //   // verifyRequest: '/auth/verify-request', // (used for check email message)
     //   // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     //   error: '/error',
-  }
-};
+  },
+}
 
-const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions)
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

@@ -1,11 +1,11 @@
-import { FC, memo } from "react";
+import { FC, memo } from "react"
 
-type Props = JSX.IntrinsicElements["button"];
+type Props = JSX.IntrinsicElements["button"]
 
 const Button: FC<Props> = (props) => {
-  const { children, ...buttonProps } = props;
+  const { children, ...buttonProps } = props
 
-  return <button {...buttonProps}>{children}</button>;
-};
+  return <button {...buttonProps}>{children}</button>
+}
 
-export default memo(Button);
+export default memo(Button)

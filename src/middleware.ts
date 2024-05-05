@@ -4,15 +4,14 @@ export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req) {
     console.log("req.nextauth.token", req.nextauth.token)
-
   },
 )
 export const config = {
   matcher: [
-    "/",              // ルートパスを含める
-    '/((?!signin|api|_next/static|_next/image|favicon.ico).*)',// '/signin' とデータフェッチ用のapiなどは除外する
+    "/", // ルートパスを含める
+    "/((?!signin|api|_next/static|_next/image|favicon.ico).*)", // '/signin' とデータフェッチ用のapiなどは除外する
   ],
-};
+}
 
 // export { default } from "next-auth/middleware";
 
@@ -47,7 +46,6 @@ export const config = {
 //   return NextResponse.next();
 // }
 
-
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 // import { NextApiResponse, NextApiRequest } from 'next';
 // import NextAuth, { getServerSession } from 'next-auth';
@@ -55,7 +53,6 @@ export const config = {
 
 // export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 //   const session = await getServerSession(authOptions);
-
 
 //   if (!session) {
 //     // セッションが存在しない場合、サインインページにリダイレクト

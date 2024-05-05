@@ -1,5 +1,5 @@
-"use client";
+"use client"
 
-import { atom } from 'jotai';
+import { atom } from "jotai"
 
-export const userAtom = atom<string | null>(null);
+export const userAtom = atom<string | null>(null)

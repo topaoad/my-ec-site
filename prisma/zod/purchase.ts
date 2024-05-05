@@ -18,6 +18,8 @@ export interface CompletePurchase extends z.infer<typeof PurchaseModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedPurchaseModel: z.ZodSchema<CompletePurchase> = z.lazy(() => PurchaseModel.extend({
-  user: RelatedUserModel,
-}))
+export const RelatedPurchaseModel: z.ZodSchema<CompletePurchase> = z.lazy(() =>
+  PurchaseModel.extend({
+    user: RelatedUserModel,
+  }),
+)

@@ -1,5 +1,9 @@
 import { createClient } from "microcms-js-sdk"
-import type { CustomRequestInit, MicroCMSImage, MicroCMSQueries } from "microcms-js-sdk"
+import type {
+  CustomRequestInit,
+  MicroCMSImage,
+  MicroCMSQueries,
+} from "microcms-js-sdk"
 
 // if (!process.env.MICROCMS_SERVICE_DOMAIN) {
 //   throw new Error('MICROCMS_SERVICE_DOMAIN is required')
@@ -47,7 +51,10 @@ export const listProducts = async (queries: MicroCMSQueries = {}) => {
   })
 }
 
-export const getProductById = async (id: string, queries: MicroCMSQueries = {}) => {
+export const getProductById = async (
+  id: string,
+  queries: MicroCMSQueries = {},
+) => {
   return client.get<Product>({
     customRequestInit,
     endpoint: "products",

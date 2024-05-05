@@ -1,11 +1,16 @@
 import { stripe } from "@/app/libs/stripe"
 import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(request: NextRequest, { params }: { params: { product_id: string } }) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { product_id: string } },
+) {
   const origin = request.headers.get("origin") || "http://localhost:3000"
   const referer = request.headers.get("referer") || "http://localhost:3000"
   const productId = params.product_id
-  if (request.headers.get("content-type") !== "application/x-www-form-urlencoded") {
+  if (
+    request.headers.get("content-type") !== "application/x-www-form-urlencoded"
+  ) {
     return NextResponse.json(
       {
         message: "Invalid request",
@@ -48,19 +53,19 @@ export async function POST(request: NextRequest, { params }: { params: { product
   // 顧客のメールアドレスで顧客を検索
   let customers = await stripe.customers.list({
     email: body.get("email") as string,
-  });
+  })
 
   // 顧客のリストをループし、支払い方法がある顧客を探す ※同じユーザーでも必ず決済をするとは限らないため
   for (let customer of customers.data) {
     const methods = await stripe.paymentMethods.list({
       customer: customer.id,
       type: "card",
-    });
+    })
     if (methods.data.length > 0) {
       // 支払い方法がある場合、その顧客IDを使用
-      customerId = customer.id;
-      paymentMethods = methods;
-      break; // ループを抜ける
+      customerId = customer.id
+      paymentMethods = methods
+      break // ループを抜ける
     }
   }
 
@@ -68,8 +73,8 @@ export async function POST(request: NextRequest, { params }: { params: { product
   if (!customerId) {
     const newCustomer = await stripe.customers.create({
       email: body.get("email") as string,
-    });
-    customerId = newCustomer.id;
+    })
+    customerId = newCustomer.id
   }
 
   let { id: priceId } = await stripe.prices
@@ -126,7 +131,8 @@ export async function POST(request: NextRequest, { params }: { params: { product
   } else {
     return NextResponse.json(
       {
-        message: "Failed to create a new checkout session. Please check your Stripe Dashboard.",
+        message:
+          "Failed to create a new checkout session. Please check your Stripe Dashboard.",
       },
       {
         status: 400,

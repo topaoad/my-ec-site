@@ -1,14 +1,22 @@
-'use client'
+"use client"
 
-import { Session } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react'
-import { useSession } from "next-auth/react";
-import { useAtom } from 'jotai';
-import { userAtom } from '@/store/userAtom';
-import { useQuery } from '@tanstack/react-query';
-import { Card, Image, Text, Badge, Button, Group, CopyButton } from '@mantine/core';
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react';
+import { Session } from "next-auth"
+import { signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
+import { useAtom } from "jotai"
+import { userAtom } from "@/store/userAtom"
+import { useQuery } from "@tanstack/react-query"
+import {
+  Card,
+  Image,
+  Text,
+  Badge,
+  Button,
+  Group,
+  CopyButton,
+} from "@mantine/core"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 // ログイン、ログアウト機能用の仮コンポーネント
 export default function UserProfile() {
@@ -16,9 +24,9 @@ export default function UserProfile() {
   // クライアントセッション
   const { data: session, status } = useSession()
   // セッションユーザーのemailを使用してユーザー情報を取得
-  const [user, setUser] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom)
   if (session != null) {
-    setUser(session.user?.email ?? null);
+    setUser(session.user?.email ?? null)
   }
 
   // ローカル側でリダイレクトさせる処理　ただし、middlewareでリダイレクトされるので不要
@@ -34,16 +42,19 @@ export default function UserProfile() {
 
   // TanStackのuseQueryを使用してデータを取得
   const fetchUsers = async () => {
-    const res = await fetch(session ? '/api/user' : "");
-    return res.json();
-  };
+    const res = await fetch(session ? "/api/user" : "")
+    return res.json()
+  }
 
-  const { data: users, isError
-    , isLoading,
-    ...others } = useQuery({
-      queryKey: ['users'],
-      queryFn: fetchUsers,
-    });
+  const {
+    data: users,
+    isError,
+    isLoading,
+    ...others
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+  })
   // ローカルでどのようなユーザー情報を持たせるかは要検討
 
   if (session && session.user) {
@@ -52,15 +63,18 @@ export default function UserProfile() {
         <p>Welcome, {session.user.name}</p>
         <p>Email: {session.user.email}</p>
         {/* tanstackで取得したユーザー情報サンプル */}
-        {users && users.users.map((user: any) => {
-          return (
-            <div key={user.id}>
-              <p>{user.name}</p>
-              <p>{"email:"}{user.email}</p>
-            </div>
-          )
-        }
-        )}
+        {users &&
+          users.users.map((user: any) => {
+            return (
+              <div key={user.id}>
+                <p>{user.name}</p>
+                <p>
+                  {"email:"}
+                  {user.email}
+                </p>
+              </div>
+            )
+          })}
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Card.Section>
             <Image
@@ -76,8 +90,9 @@ export default function UserProfile() {
           </Group>
 
           <Text size="sm" c="dimmed">
-            With Fjord Tours you can explore more of the magical fjord landscapes with tours and
-            activities on and around the fjords of Norway
+            With Fjord Tours you can explore more of the magical fjord
+            landscapes with tours and activities on and around the fjords of
+            Norway
           </Text>
 
           <Button color="blue" fullWidth mt="md" radius="md">
@@ -86,15 +101,14 @@ export default function UserProfile() {
         </Card>
         <CopyButton value="https://mantine.dev">
           {({ copied, copy }) => (
-            <Button color={copied ? 'teal' : 'blue'} onClick={copy}>
-              {copied ? 'Copied url' : 'Copy url'}
+            <Button color={copied ? "teal" : "blue"} onClick={copy}>
+              {copied ? "Copied url" : "Copy url"}
             </Button>
           )}
         </CopyButton>
       </div>
-    );
+    )
   }
 
-  return <p>Not signed in</p>;
+  return <p>Not signed in</p>
 }
-

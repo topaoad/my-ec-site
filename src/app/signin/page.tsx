@@ -1,22 +1,21 @@
-import Image from "next/image";
+import Image from "next/image"
 // import { useSession, signIn, signOut } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 // import SessionTip from '@/app/components/SessionTip'
 import { useSession, signIn, signOut } from "next-auth/react"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import SessionTip from "@/app/components/SessionTip";
-import UserProfile from "@/app/components/UserProfile";
-
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import SessionTip from "@/app/components/SessionTip"
+import UserProfile from "@/app/components/UserProfile"
 
 export default async function Home() {
   // サーバーセッション
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   const getUserList = async () => {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`)
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+      throw new Error(`HTTP error! status: ${res.status}`)
     }
     const json = await res.json()
     return json.users
@@ -24,7 +23,7 @@ export default async function Home() {
 
   let userList = []
   if (session != null) {
-    userList = await getUserList();
+    userList = await getUserList()
   }
 
   // if (session === "loading") {
