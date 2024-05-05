@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NextAuthProvider from '@/providers/NextAuth'
+import NextAuthProvider from "@/providers/NextAuth"
 import { Suspense } from "react";
 import UserProfile from "@/app/components/UserProfile";
 import JotaiProvider from "@/app/components/JotaiProvider";
 import TanStackProvider from "./components/TanStackProvider";
-import '@mantine/core/styles.css';
+import "@mantine/core/styles.css";
 import MantineProviderWrapper from "./components/MantineProvider";
-
+import { Inter as FontSans } from "next/font/google"
 
 const inter = Inter({ subsets: ["latin"] });
 

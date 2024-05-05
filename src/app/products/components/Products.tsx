@@ -8,8 +8,7 @@ import Image from 'next/image'
 export async function Products({ offset }: { offset?: number }) {
   const { contents: products, ...args } = await listProducts()
   const { totalCount, limit } = args
-  console.log(args)
-  console.log(products)
+
   return (
     // <Suspense fallback={<div>Loading中・・・</div>}>
     <>
@@ -52,7 +51,6 @@ export async function Products({ offset }: { offset?: number }) {
                   </p>
                   <input type='hidden' name='amount' value={product.price} />
                   <input type='hidden' name='email' value="sample@gmail.com" />
-                  {/* <input type='hidden' name='currency' value={product.currency} /> */}
                   {/* <input type='hidden' name='name' value={product.name} /> */}
                   {product.image ? (
                     <input type='hidden' name='image' value={product.image.url} />
