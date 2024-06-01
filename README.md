@@ -90,4 +90,7 @@
 
 - [TypeScript ORM「Prisma」のはじめかた](https://www.memory-lovers.blog/entry/2021/10/13/113000)
 
-##
+### 実装メモ
+- セッションのstrategyはdatabaseを使いたいが、そうするとmiddlewareの判別がうまくいかないので、jwtを使っている
+　※strategyを使い、セッション情報をサーバーサイドでもたせるとnext-auth.session-tokenにはsessionidだけが格納されるので
+jwtでセッション情報そのものを格納するよりセキュアとなる。
