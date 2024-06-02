@@ -97,3 +97,4 @@ jwtでセッション情報そのものを格納するよりセキュアとな�
 
 ### デプロイメモ
 - vercelへのデプロイ時に認証関連でエラーが発生。コールバックURLの設定などに気をつけること
+NEXTAUTH_URLは不要らしい（https://next-auth.js.org/deployment）
