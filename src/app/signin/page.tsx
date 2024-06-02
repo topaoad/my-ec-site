@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth/next"
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 // import SessionTip from '@/app/components/SessionTip'
 import { useSession, signIn, signOut } from "next-auth/react"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import SessionTip from "@/app/components/SessionTip";
 import UserProfile from "@/app/components/UserProfile";
 
