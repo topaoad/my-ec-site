@@ -1,8 +1,27 @@
-import Link from 'next/link'
-import { listProducts } from '@/app/libs/microcms';
-import { Suspense } from 'react'
-import { Pagination } from '@/app/components/layouts/Pagenation'
-import Image from 'next/image'
+import Link from "next/link"
+import { listProducts } from "@/app/libs/microcms";
+import { Suspense } from "react"
+import { Pagination } from "@/app/components/layouts/Pagenation"
+import Image from "next/image"
+import { cva } from "class-variance-authority";
+import Button from "@/app/components/Button/Button";
+
+export const buttonVariants = cva("btn", {
+  variants: {
+    intent: {
+      primary: "btn-primary",
+      secondary: "btn-secondary",
+    },
+    size: {
+      small: "btn-sm",
+      large: "btn-lg",
+    },
+  },
+  defaultVariants: {
+    intent: "primary",
+    size: "large",
+  },
+});
 
 
 export async function Products({ offset }: { offset?: number }) {
@@ -48,6 +67,7 @@ export async function Products({ offset }: { offset?: number }) {
                     >
                       Buy now
                     </button>
+                    <Button intent="primary" size="medium" isDisabled={false} className="bg-red-500">Click me</Button>
                   </p>
                   <input type='hidden' name='amount' value={product.price} />
                   <input type='hidden' name='email' value="sample@gmail.com" />

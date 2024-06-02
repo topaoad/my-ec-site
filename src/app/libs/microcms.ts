@@ -56,11 +56,11 @@ export const getProductById = async (id: string, queries: MicroCMSQueries = {}) 
   })
 }
 
-// export type SiteInfo = {
-//   site_title: string
-//   description: string
-//   feature_image?: MicroCMSImage
-// }
+export type SiteInfo = {
+  site_title: string
+  description: string
+  feature_image?: MicroCMSImage
+}
 // export const getSiteInfo = async (): Promise<SiteInfo> => {
 //   return client.get<SiteInfo>({
 //     customRequestInit,
