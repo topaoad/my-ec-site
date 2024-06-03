@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import LineProvider from 'next-auth/providers/line';
-import SlackProvider from 'next-auth/providers/slack';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
-import { NextAuthOptions } from 'next-auth';
-import { randomUUID, randomBytes } from 'crypto';
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import LineProvider from "next-auth/providers/line";
+import SlackProvider from "next-auth/providers/slack";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+import { NextAuthOptions } from "next-auth";
+import { randomUUID, randomBytes } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -15,12 +15,12 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
     LineProvider({
-      clientId: process.env.LINE_CLIENT_ID ?? '',
-      clientSecret: process.env.LINE_CLIENT_SECRET ?? '',
+      clientId: process.env.LINE_CLIENT_ID ?? "",
+      clientSecret: process.env.LINE_CLIENT_SECRET ?? "",
     }),
     // SlackProvider({
     //   clientId: process.env.SLACK_CLIENT_ID ?? '',
@@ -31,19 +31,19 @@ export const authOptions: NextAuthOptions = {
     async session({ session }) {
       if (session.user) {
         // ユーザーIDをセッションに追加
-        console.log("session情報⭐️", session)
+        console.log("session情報⭐️", session);
       }
       return session;
     },
     // サインイン後にリダイレクトする
     async redirect({ url, baseUrl }) {
-      return baseUrl
+      return baseUrl;
     },
     // サインイン関数実行時にコールバックされる
     async signIn({ user, account }) {
       // Userテーブルにユーザー情報を格納
-      console.log("user情報⭐️", user)
-      console.log("account情報⭐️", account)
+      console.log("user情報⭐️", user);
+      console.log("account情報⭐️", account);
 
       const userData = {
         email: user.email,
@@ -85,7 +85,6 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-
   },
   session: {
     // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
@@ -105,8 +104,8 @@ export const authOptions: NextAuthOptions = {
     // The session token is usually either a random UUID or string, however if you
     // need a more customized session token string, you can define your own generate function.
     generateSessionToken: () => {
-      return randomUUID?.() ?? randomBytes(32).toString("hex")
-    }
+      return randomUUID?.() ?? randomBytes(32).toString("hex");
+    },
   },
   pages: {
     // signIn: '/auth/signin',
@@ -115,7 +114,7 @@ export const authOptions: NextAuthOptions = {
     //   // verifyRequest: '/auth/verify-request', // (used for check email message)
     //   // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     //   error: '/error',
-  }
+  },
 };
 
 const handler = NextAuth(authOptions);
