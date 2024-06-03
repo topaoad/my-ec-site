@@ -1,11 +1,16 @@
-import { stripe } from "@/app/libs/stripe"
-import { NextRequest, NextResponse } from "next/server"
+import { stripe } from "@/app/libs/stripe";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest, { params }: { params: { product_id: string } }) {
-  const origin = request.headers.get("origin") || "http://localhost:3000"
-  const referer = request.headers.get("referer") || "http://localhost:3000"
-  const productId = params.product_id
-  if (request.headers.get("content-type") !== "application/x-www-form-urlencoded") {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { product_id: string } },
+) {
+  const origin = request.headers.get("origin") || "http://localhost:3000";
+  const referer = request.headers.get("referer") || "http://localhost:3000";
+  const productId = params.product_id;
+  if (
+    request.headers.get("content-type") !== "application/x-www-form-urlencoded"
+  ) {
     return NextResponse.json(
       {
         message: "Invalid request",
@@ -13,19 +18,19 @@ export async function POST(request: NextRequest, { params }: { params: { product
       {
         status: 400,
       },
-    )
+    );
   }
-  const body = await request.formData()
-  const amount = body.get("amount") as FormDataEntryValue
+  const body = await request.formData();
+  const amount = body.get("amount") as FormDataEntryValue;
   // const currency = body.get('currency') as FormDataEntryValue
-  const currency = "jpy"
+  const currency = "jpy";
   // const name = body.get('name') as FormDataEntryValue
-  const name = "testname"
-  const image = body.get("image") as FormDataEntryValue
+  const name = "testname";
+  const image = body.get("image") as FormDataEntryValue;
 
   // 顧客のメールアドレスで顧客を検索し、あればそれを元に支払い方法を取得する。なければ新たな顧客を作成する。
-  let paymentMethods
-  let customerId
+  let paymentMethods;
+  let customerId;
 
   // let customers = await stripe.customers.list({
   //   email: body.get("email") as string, // 顧客のメールアドレス
@@ -77,7 +82,7 @@ export async function POST(request: NextRequest, { params }: { params: { product
       product: productId,
     })
     .then(({ data }) => data[0])
-    .catch((e) => ({ id: null }))
+    .catch((e) => ({ id: null }));
   if (!priceId) {
     const product = await stripe.products.create({
       id: productId,
@@ -87,11 +92,11 @@ export async function POST(request: NextRequest, { params }: { params: { product
       },
       name: name.toString(),
       images: [image?.toString()],
-    })
+    });
     priceId =
       typeof product.default_price === "string"
         ? product.default_price
-        : product.default_price?.id ?? ""
+        : product.default_price?.id ?? "";
   }
 
   // 以下はStripe.jsやElementsを使用してクライアントサイドでカスタムした支払いを確認するために使用されます。
@@ -120,17 +125,18 @@ export async function POST(request: NextRequest, { params }: { params: { product
     payment_intent_data: {
       setup_future_usage: "on_session",
     },
-  })
+  });
   if (session.url) {
-    return NextResponse.redirect(new URL(session.url), 303)
+    return NextResponse.redirect(new URL(session.url), 303);
   } else {
     return NextResponse.json(
       {
-        message: "Failed to create a new checkout session. Please check your Stripe Dashboard.",
+        message:
+          "Failed to create a new checkout session. Please check your Stripe Dashboard.",
       },
       {
         status: 400,
       },
-    )
+    );
   }
 }

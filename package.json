@@ -7,8 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "test": "jest",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@mantine/carousel": "^7.6.1",
@@ -44,6 +47,7 @@
     "microcms-js-sdk": "^2.7.0",
     "next": "14.1.0",
     "next-auth": "^4.24.6",
+    "prettier": "^3.3.0",
     "react": "^18",
     "react-dom": "^18",
     "recharts": "2",

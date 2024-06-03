@@ -10,8 +10,6 @@
 
 // export default memo(Button);
 
-
-
 import React, { FC, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
@@ -23,7 +21,6 @@ interface ButtonProps {
   isDisabled?: boolean;
   className?: string;
 }
-
 
 // export const buttonVariants = cva("btn", {
 //   variants: {
@@ -46,12 +43,12 @@ export const buttonVariants = cva("px-4 py-2 bg-blue-500 text-white rounded", {
     intent: {
       primary: "bg-blue-500",
       secondary: "bg-gray-400",
-      danger: "bg-red-400"
+      danger: "bg-red-400",
     },
     size: {
       small: "px-4 py-2",
       medium: "px-6 py-3",
-      large: "px-10 py-5"
+      large: "px-10 py-5",
     },
   },
   defaultVariants: {
@@ -60,12 +57,17 @@ export const buttonVariants = cva("px-4 py-2 bg-blue-500 text-white rounded", {
   },
 });
 
-
-const Button: FC<ButtonProps> = ({ children, intent = "primary", size = "large", isDisabled = false, className }) => {
+const Button: FC<ButtonProps> = ({
+  children,
+  intent = "primary",
+  size = "large",
+  isDisabled = false,
+  className,
+}) => {
   const buttonClass = cn(
     buttonVariants({ intent, size }),
     { "btn-disabled": isDisabled },
-    className
+    className,
   );
 
   return (

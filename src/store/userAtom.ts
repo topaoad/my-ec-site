@@ -1,5 +1,5 @@
 "use client";
 
-import { atom } from 'jotai';
+import { atom } from "jotai";
 
 export const userAtom = atom<string | null>(null);

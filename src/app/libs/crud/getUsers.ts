@@ -7,4 +7,4 @@ export const getUsers = async () => {
   const users: User[] = await prisma.user.findMany();
 
   return users;
-}
+};

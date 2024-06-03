@@ -1,9 +1,9 @@
-import Stripe from 'stripe'
+import Stripe from "stripe";
 
 if (!process.env.STRIPE_SECRET_API_KEY) {
-  throw new Error('STRIPE_SECRET_API_KEY is required')
+  throw new Error("STRIPE_SECRET_API_KEY is required");
 }
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_API_KEY, {
-  apiVersion: '2023-10-16',
-})
+  apiVersion: "2023-10-16",
+});

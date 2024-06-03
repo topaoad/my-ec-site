@@ -1,9 +1,9 @@
 import Image from "next/image";
 // import { useSession, signIn, signOut } from "next-auth/react"
-import { getServerSession } from "next-auth/next"
+import { getServerSession } from "next-auth/next";
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 // import SessionTip from '@/app/components/SessionTip'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react";
 import { authOptions } from "@/app/libs/auth";
 import SessionTip from "@/app/components/SessionTip";
 import UserProfile from "@/app/components/UserProfile";
@@ -13,15 +13,15 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   const getUserList = async () => {
-    const res = await fetch(`${process.env.BASE_URL}/api/user`)
+    const res = await fetch(`${process.env.BASE_URL}/api/user`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
-    const json = await res.json()
-    return json.users
-  }
+    const json = await res.json();
+    return json.users;
+  };
 
-  let userList = []
+  let userList = [];
   if (session != null) {
     userList = await getUserList();
   }
@@ -44,5 +44,5 @@ export default async function Home() {
     <>
       <SessionTip session={session} />
     </>
-  )
+  );
 }

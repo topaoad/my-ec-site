@@ -2,7 +2,6 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 
-
 describe("Buttonコンポーネントのテスト", () => {
   it("正しくレンダリングされる", () => {
     render(<Button>Test</Button>);

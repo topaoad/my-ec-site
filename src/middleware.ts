@@ -30,8 +30,6 @@
 //   ],
 // };
 
-
-
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
@@ -54,12 +52,12 @@ export default withAuth(
         return !!token;
       },
     },
-  }
+  },
 );
 
 export const config = {
   matcher: [
-    "/",              // ルートパスを含める
+    "/", // ルートパスを含める
     "/((?!signin|api|_next/static|_next/image|favicon.ico).*)", // '/signin' とデータフェッチ用のapiなどは除外する
   ],
 };
