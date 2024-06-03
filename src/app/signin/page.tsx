@@ -13,7 +13,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   const getUserList = async () => {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`)
+    const res = await fetch(`${process.env.BASE_URL}/api/user`)
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }

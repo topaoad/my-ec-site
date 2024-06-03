@@ -91,10 +91,16 @@
 - [TypeScript ORM「Prisma」のはじめかた](https://www.memory-lovers.blog/entry/2021/10/13/113000)
 
 ### 実装メモ
-- セッションのstrategyはdatabaseを使いたいが、そうするとmiddlewareの判別がうまくいかないので、jwtを使っている
-　※strategyを使い、セッション情報をサーバーサイドでもたせるとnext-auth.session-tokenにはsessionidだけが格納されるので
-jwtでセッション情報そのものを格納するよりセキュアとなる。
+
+- セッションの strategy は database を使いたいが、そうすると middleware の判別がうまくいかないので、jwt を使っている
+  　※strategy を使い、セッション情報をサーバーサイドでもたせると next-auth.session-token には sessionid だけが格納されるので
+  jwt でセッション情報そのものを格納するよりセキュアとなる。
 
 ### デプロイメモ
-- vercelへのデプロイ時に認証関連でエラーが発生。コールバックURLの設定などに気をつけること
-NEXTAUTH_URLは不要らしい（https://next-auth.js.org/deployment）
+
+- vercel へのデプロイ時に認証関連でエラーが発生。コールバック URL の設定などに気をつけること
+  NEXTAUTH_URL は不要らしい（https://next-auth.js.org/deployment）
+
+2024/6/3 次の作業時に向けて
+
+- フェッチ時に参照していた NEXTAUTH_URL をBASE_URLに変えて設定し、かつ本番環境では NEXTAUTH_URL を使わないようにする
