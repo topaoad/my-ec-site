@@ -18,7 +18,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   const getUserList = async () => {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`)
+    const res = await fetch(`${process.env.BASE_URL}/api/user`)
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
@@ -36,7 +36,7 @@ export default async function Home() {
    */
   // const redirectSignin = () => {
   //   if (!session) {
-  //     const signInUrl = `${process.env.NEXTAUTH_URL}/signin`; // リダイレクト先のURLを構築// リダイレクト先のURLを構築
+  //     const signInUrl = `${process.env.BASE_URL}/signin`; // リダイレクト先のURLを構築// リダイレクト先のURLを構築
   //     return (
   //       NextResponse.redirect(signInUrl)// リダイレクトを実行
   //     )
