@@ -1,49 +1,67 @@
-import { SiteInfo } from "@/app/libs/microcms";
-import Link from "next/link";
+"use client";
 
-export function Header(props: { siteInfo: SiteInfo }) {
+// components/Header.tsx
+import { useState } from "react";
+import { Menu } from "@shadcn/ui";
+// import { MenuIcon } from "@heroicons/react/outline";
+// import { MenuItem } from "../types";
+import Link from "next/link";
+import { client } from "@/app/libs/client";
+export interface MenuItem {
+  label: string;
+  href: string;
+}
+
+const menuItems: MenuItem[] = [
+  { label: "Home", href: "#" },
+  { label: "About", href: "#" },
+  { label: "Services", href: "#" },
+  { label: "Contact", href: "#" },
+];
+
+const Header: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <header>
-      <div className="navbar bg-base-100">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+    <header className="bg-gray-800 text-white">
+      <div className="container mx-auto flex justify-between items-center py-4 px-4">
+        <div className="text-2xl font-bold">MyLogo</div>
+        <nav className="hidden md:flex space-x-4">
+          {menuItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="hover:text-gray-300"
             >
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-            </ul>
-          </div>
-          <Link href="/" className="btn btn-ghost normal-case text-xl">
-            {props.siteInfo.site_title}
-          </Link>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-          </ul>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="focus:outline-none"
+          >
+            {/* <MenuIcon className="w-8 h-8" /> */}
+            hogehoge
+          </button>
         </div>
       </div>
+      {isOpen && (
+        <div className="md:hidden bg-gray-800 text-white">
+          {menuItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="block px-4 py-2 hover:bg-gray-700"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
     </header>
   );
-}
+};
+
+export default Header;

@@ -9,6 +9,7 @@ import TanStackProvider from "./components/TanStackProvider";
 import "@mantine/core/styles.css";
 import MantineProviderWrapper from "./components/MantineProvider";
 import { Inter as FontSans } from "next/font/google";
+import Header from "@/app/components/layouts/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
           <JotaiProvider>
             <TanStackProvider>
               <MantineProviderWrapper>
-                {/* <Header /> */}
+                <Header />
                 <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
               </MantineProviderWrapper>
             </TanStackProvider>
