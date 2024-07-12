@@ -10,6 +10,8 @@ import "@mantine/core/styles.css";
 import MantineProviderWrapper from "./components/MantineProvider";
 import { Inter as FontSans } from "next/font/google";
 import Header from "@/app/components/layouts/Header";
+import { ToastProvider } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,8 +32,11 @@ export default function RootLayout({
           <JotaiProvider>
             <TanStackProvider>
               <MantineProviderWrapper>
-                <Header />
-                <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
+                <ToastProvider>
+                  <Header />
+                  <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
+                  <Toaster />
+                </ToastProvider>
               </MantineProviderWrapper>
             </TanStackProvider>
           </JotaiProvider>

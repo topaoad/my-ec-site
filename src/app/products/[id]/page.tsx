@@ -45,7 +45,6 @@ export default async function Product({
   if (!product) {
     notFound();
   }
-  console.log("productproductproductproduct", product);
   return (
     <div className="">
       {product.image ? (

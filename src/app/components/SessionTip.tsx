@@ -2,36 +2,56 @@
 
 import { signIn, signOut } from "next-auth/react";
 import type { Session } from "next-auth";
+import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 
-// ログイン、ログアウト機能用の仮コンポーネント
 export default function SessionTip({ session }: { session: Session | null }) {
-  // クライアントセッション（これを使う場合は引数不要）
-  // const { data: session, status } = useSession()
-
-  console.log(session);
   if (!session) {
     return (
-      <>
-        <p>未ログイン</p>
-        <button
-          onClick={() => signIn()}
-          className="flex w-full justify-center border-2 border-b border-red-300 hover:border-red-400 bg-red-200 hover:bg-red-300 pb-6 pt-8 backdrop-blur-2xl dark:border-red-800 dark:hover:border-red-900 dark:bg-red-800/50 dark:hover:bg-red-900/30 lg:static lg:w-auto lg:rounded-xl lg:p-4"
-        >
-          Sign In
-        </button>
-      </>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="bg-white p-5 mt-5 rounded-lg shadow-md w-full max-w-md">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">ようこそ</h2>
+          <p className="text-center text-gray-600 mb-6">
+            サービスをご利用いただくには、ログインが必要です。
+          </p>
+          <button
+            onClick={() => signIn("google")}
+            className="bg-purple-600 hover:bg-purple-700 text-white w-full flex items-center justify-center  font-semibold py-3 px-4  rounded-lg shadow transition duration-300 ease-in-out mb-4"
+          >
+            <ExternalLink className="w-5 h-5 mr-2" />
+            Googleでログイン
+          </button>
+          <div className="relative my-6">
+            <hr className="border-gray-300" />
+            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-gray-500 text-sm">
+              または
+            </span>
+          </div>
+          <button
+            onClick={() => signIn()}
+            className="w-full bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            他の方法でログイン
+          </button>
+        </div>
+      </div>
     );
   }
-
-  return (
-    <>
-      <p>ログイン中</p>
-      <button
-        onClick={() => signOut()}
-        className="flex w-full justify-center border-2 border-b border-green-300 bg-green-200 pb-6 pt-8 backdrop-blur-2xl dark:border-green-800 dark:bg-green-800/30 lg:static lg:w-auto lg:rounded-xl lg:p-4 hover:border-green-400 hover:bg-green-300 dark:hover:border-green-900 dark:hover:bg-green-900/30"
-      >
-        Sign Out
-      </button>
-    </>
-  );
+  // ログイン中の場合だが、画面表示を想定していないのでコメントアウト
+  // return (
+  //   <div className="flex items-center justify-center min-h-screen bg-gray-100">
+  //     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+  //       <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">ログイン中</h2>
+  //       <p className="text-center text-gray-600 mb-6">
+  //         {session.user?.name || "ユーザー"}さん、ようこそ！
+  //       </p>
+  //       <button
+  //         onClick={() => signOut()}
+  //         className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+  //       >
+  //         ログアウト
+  //       </button>
+  //     </div>
+  //   </div>
+  // );
 }

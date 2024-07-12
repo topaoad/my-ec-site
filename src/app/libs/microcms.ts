@@ -31,6 +31,7 @@ const customRequestInit: CustomRequestInit | undefined = (() => {
 })();
 
 export type Product = {
+  id: string;
   title: string;
   description?: string;
   // images?: Array<MicroCMSImage>

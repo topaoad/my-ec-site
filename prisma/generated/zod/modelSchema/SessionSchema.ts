@@ -11,10 +11,10 @@ import { UserOptionalDefaultsWithRelationsSchema } from './UserSchema'
 /////////////////////////////////////////
 
 export const SessionSchema = z.object({
-  id: z.string(),
+  id: z.string().cuid(),
   sessionToken: z.string(),
   userId: z.string(),
-  expires: z.date(),
+  expires: z.coerce.date(),
 })
 
 export type Session = z.infer<typeof SessionSchema>
@@ -32,7 +32,7 @@ export type SessionPartial = z.infer<typeof SessionPartialSchema>
 /////////////////////////////////////////
 
 export const SessionOptionalDefaultsSchema = SessionSchema.merge(z.object({
-  id: z.string().optional(),
+  id: z.string().cuid().optional(),
 }))
 
 export type SessionOptionalDefaults = z.infer<typeof SessionOptionalDefaultsSchema>

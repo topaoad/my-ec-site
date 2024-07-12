@@ -23,11 +23,11 @@ import { PurchaseOptionalDefaultsWithRelationsSchema } from './PurchaseSchema'
 /////////////////////////////////////////
 
 export const UserSchema = z.object({
-  id: z.string(),
+  id: z.string().cuid(),
   name: z.string().nullish(),
   nickname: z.string().nullish(),
   email: z.string().nullish(),
-  emailVerified: z.date().nullish(),
+  emailVerified: z.coerce.date().nullish(),
   image: z.string().nullish(),
 })
 
@@ -46,7 +46,7 @@ export type UserPartial = z.infer<typeof UserPartialSchema>
 /////////////////////////////////////////
 
 export const UserOptionalDefaultsSchema = UserSchema.merge(z.object({
-  id: z.string().optional(),
+  id: z.string().cuid().optional(),
 }))
 
 export type UserOptionalDefaults = z.infer<typeof UserOptionalDefaultsSchema>
