@@ -1,63 +1,46 @@
-// import { withAuth } from "next-auth/middleware";
-// import { NextResponse } from "next/server";
-
-// export default withAuth(
-//   function middleware(req) {
-
-//     // トークンがない場合はサインインページにリダイレクト
-//     if (!req.nextauth.token) {
-//       const url = req.nextUrl.clone();
-//       url.pathname = "/signin";
-//       return NextResponse.redirect(url);
-//     }
-
-//     return NextResponse.next();
-//   },
-//   {
-//     callbacks: {
-//       authorized: ({ token }) => {
-//         // トークンが存在する場合は認証済みとみなす
-//         return !!token;
-//       },
-//     },
-//   }
-// );
-
-// export const config = {
-//   matcher: [
-//     "/",              // ルートパスを含める
-//     "/((?!signin|api|_next/static|_next/image|favicon.ico).*)", // '/signin' とデータフェッチ用のapiなどは除外する
-//   ],
-// };
-
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export default withAuth(
   async function middleware(req) {
-    console.log("req.nextauth.token", req.nextauth.token);
+    const token = req.nextauth.token;
+    const isAuthPage = req.nextUrl.pathname.startsWith("/signin");
+    const isProtectedPage = req.nextUrl.pathname.startsWith("/profile") || req.nextUrl.pathname.startsWith("/orders");
 
-    if (!req.nextauth.token) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/signin";
-      return NextResponse.redirect(url);
+    // ログイン済みユーザーがサインインページにアクセスした場合、ホームページにリダイレクト
+    if (token && isAuthPage) {
+      return NextResponse.redirect(new URL("/", req.url));
     }
 
+    // 未ログインユーザーが保護されたページにアクセスした場合、サインインページにリダイレクト
+    if (!token && isProtectedPage) {
+      return NextResponse.redirect(new URL("/signin", req.url));
+    }
+
+    // その他の場合は通常のアクセスを許可
     return NextResponse.next();
   },
   {
     callbacks: {
-      authorized: ({ token }) => {
-        console.log("Authorized token:", token);
-        return !!token;
+      authorized: ({ token, req }) => {
+        // 保護されたページへのアクセスのみをチェック
+        // お気に入り、プロフィール、注文履歴ページはログインが必要 ※カートページはログイン不要
+        if (req.nextUrl.pathname.startsWith("/profile") || req.nextUrl.pathname.startsWith("/orders") || req.nextUrl.pathname.startsWith("/favorites")) {
+          return !!token;
+        }
+        // その他のページは常に許可
+        return true;
       },
     },
-  },
+  }
 );
 
 export const config = {
   matcher: [
-    "/", // ルートパスを含める
-    "/((?!signin|api|_next/static|_next/image|favicon.ico).*)", // '/signin' とデータフェッチ用のapiなどは除外する
+    "/signin",
+    "/profile/:path*",
+    "/orders/:path*",
+    "/favorites/:path*",
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };

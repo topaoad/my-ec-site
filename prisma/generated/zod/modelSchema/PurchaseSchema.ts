@@ -11,10 +11,10 @@ import { UserOptionalDefaultsWithRelationsSchema } from './UserSchema'
 /////////////////////////////////////////
 
 export const PurchaseSchema = z.object({
-  id: z.string(),
+  id: z.string().cuid(),
   userId: z.string(),
   bookId: z.string(),
-  createdAt: z.date(),
+  createdAt: z.coerce.date(),
 })
 
 export type Purchase = z.infer<typeof PurchaseSchema>
@@ -32,8 +32,8 @@ export type PurchasePartial = z.infer<typeof PurchasePartialSchema>
 /////////////////////////////////////////
 
 export const PurchaseOptionalDefaultsSchema = PurchaseSchema.merge(z.object({
-  id: z.string().optional(),
-  createdAt: z.date().optional(),
+  id: z.string().cuid().optional(),
+  createdAt: z.coerce.date().optional(),
 }))
 
 export type PurchaseOptionalDefaults = z.infer<typeof PurchaseOptionalDefaultsSchema>
