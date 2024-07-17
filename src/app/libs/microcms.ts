@@ -66,11 +66,34 @@ export const getProductById = async (
   });
 };
 
+export async function getProduct(productId: string): Promise<Product | null> {
+  try {
+    const product = await client.get<Product>({ endpoint: "products", contentId: productId });
+    return product;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    return null;
+  }
+}
+
+export async function getProducts(): Promise<Product[]> {
+  try {
+    const response = await client.get<{ contents: Product[] }>({ endpoint: "products" });
+    return response.contents;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
+}
+
+
+
 export type SiteInfo = {
   site_title: string;
   description: string;
   feature_image?: MicroCMSImage;
 };
+
 // export const getSiteInfo = async (): Promise<SiteInfo> => {
 //   return client.get<SiteInfo>({
 //     customRequestInit,
